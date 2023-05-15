@@ -31,7 +31,6 @@ exports.getFileById= async function(req,res,next){
 
 exports.addFile = async function(req,res,next){
     try{
-        console.info('req.file.filename',req.file.filename)
         const media = await handlerService.addMedia(req.file.filename);
         if(media){
             res.status(HTTP_CODES.DONE)
@@ -40,6 +39,7 @@ exports.addFile = async function(req,res,next){
             throw new Error('Error while saving media to DB')
         }
     }catch(error){
+        console.error('error',error)
         res.status(HTTP_CODES.EMPTY)
         res.json({error:RESPONSE_MESSAGES.BAD,version:RESPONSE_VERSION})
     }
@@ -67,13 +67,13 @@ exports.getMedia = async function(req,res,next){
         if(!fileId){
             throw new Error('NO ID IS PROVIDED')
         }
-        const media = await handlerService.getMediaLocation(fileId.toString())
+        const media = await handlerService.getMediaLocation(fileId.toString());
         if(media){
             if (req.query && req.query.download) {
                 res.download(media.fileLocation, media.fileName);
               }
               else {
-                res.sendFile(filePath);
+                res.sendFile(media.fileLocation);
               }
         }else{
             res.status(HTTP_CODES.EMPTY)

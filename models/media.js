@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const MODEL_NAME = "files";
 const mediaSchema = new Schema({
     uuid:{ type: String, required: true},
     fileName:{ type: String, required: true},
@@ -19,5 +20,5 @@ const mediaSchema = new Schema({
     },
 
 });
-module.exports = mediaSchema
-  
+const MediaModel = mongoose.model(MODEL_NAME, mediaSchema);
+module.exports =MediaModel

@@ -15,4 +15,5 @@ router.post('/',mainStorageSystem.single('file'),replicaStorageSystem.single('fi
 router.post('/multiple',mainStorageSystem.array('files'),replicaStorageSystem.array('files'),handlerController.addFiles);
 router.get('/file/:id',handlerController.getMedia);
 router.get('/:id',handlerController.getFileById);
+
 module.exports = router

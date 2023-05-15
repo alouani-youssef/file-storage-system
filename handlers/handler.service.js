@@ -1,18 +1,20 @@
 const path = require("path");
 const ffprobe = require("ffprobe-client");
-const { nanoid } = require("nanoid");
+const nanoid = require('nanoid')
 
-const { MediaModel } = require("../models");
-const mainPath = __dirname+ "/../"+ "media";
-const replicationPath =__dirname+"/../"+ "replica";
+const { MediaModel } = require("../models")
+const mainPath = path.join(__dirname,'..','media');
+const replicationPath = path.join(__dirname,'..','replica');
 const {DEFAULT_URL,DEFAULT_TYPE} = require('../config')
-
+const DEFAULT_VALUES = {
+    DEFAULT_HEIGHT:1400,
+    DEFAULT_WIDTH:920
+}
 
 async function getDimensions(path){
     return new Promise(async (resolve,reject) =>{
         try{
-            const mediaMetaData = await ffprobe(fileLocation);
-            console.log('mediaMetaData',mediaMetaData,fileLocation)
+            const mediaMetaData = await ffprobe(path);
             if (mediaMetaData) {
               const dimension = {
                 width: mediaMetaData.streams[0].width,
@@ -21,7 +23,12 @@ async function getDimensions(path){
               resolve(dimension)
             }
         }catch(error){
-            reject(error)
+            console.error('error',error)
+            const dimension = {
+                width: DEFAULT_VALUES.DEFAULT_WIDTH,
+                height: DEFAULT_VALUES.DEFAULT_HEIGHT,
+              };
+              resolve(dimension)
         }
     })
 }
@@ -29,14 +36,14 @@ async function getDimensions(path){
 
 
 exports.addMedia = async function(fileName) {
-  const fileLocation = mainPath + `./${fileName}`;
-  const replicationLocation = replicationPath + `./${fileName}`;
+  const fileLocation = mainPath + `/${fileName}`;
+  const replicationLocation = replicationPath + `/${fileName}`;
   const uuid = nanoid();
   const URL = DEFAULT_URL+uuid;
   const dimension = await getDimensions(fileLocation);
   console.log('dimension',dimension)
   if(dimension){
-    const newMedia = await MediaModel({uuid,type:DEFAULT_TYPE,URL,fileLocation,replicationLocation,dimension});
+    const newMedia = await MediaModel.create({uuid,type:DEFAULT_TYPE,URL,fileName,fileLocation,replicationLocation,dimension});
     return newMedia.toJSON();
   }
 }
