@@ -23,7 +23,6 @@ async function getDimensions(path){
               resolve(dimension)
             }
         }catch(error){
-            console.error('error',error)
             const dimension = {
                 width: DEFAULT_VALUES.DEFAULT_WIDTH,
                 height: DEFAULT_VALUES.DEFAULT_HEIGHT,
@@ -41,7 +40,6 @@ exports.addMedia = async function(fileName) {
   const uuid = nanoid();
   const URL = DEFAULT_URL+uuid;
   const dimension = await getDimensions(fileLocation);
-  console.log('dimension',dimension)
   if(dimension){
     const newMedia = await MediaModel.create({uuid,type:DEFAULT_TYPE,URL,fileName,fileLocation,replicationLocation,dimension});
     return newMedia.toJSON();
