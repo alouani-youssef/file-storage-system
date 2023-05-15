@@ -9,5 +9,6 @@
             - MEDIA TYPE MIDDLEWARE BY ADDING TYPE CHECKING
         - FIX:
             - MULTER PACKAGE VERSION
+            - PROJECT STRUCTURE
         - REMOVE:
             - LOGS

@@ -1,11 +1,9 @@
-const path = require("path");
 const ffprobe = require("ffprobe-client");
 const nanoid = require('nanoid')
 
-const { MediaModel } = require("../models")
-const mainPath = path.join(__dirname,'..','media');
-const replicationPath = path.join(__dirname,'..','replica');
-const {DEFAULT_URL,DEFAULT_TYPE} = require('../config')
+const { MediaModel } = require("../../models")
+const { DEFAULT_LOCATIONS } = require('../../config')
+const {DEFAULT_URL,DEFAULT_TYPE} = require('../../config')
 const DEFAULT_VALUES = {
     DEFAULT_HEIGHT:1400,
     DEFAULT_WIDTH:920
@@ -35,8 +33,8 @@ async function getDimensions(path){
 
 
 exports.addMedia = async function(fileName) {
-  const fileLocation = mainPath + `/${fileName}`;
-  const replicationLocation = replicationPath + `/${fileName}`;
+  const fileLocation = DEFAULT_LOCATIONS.MAIN + `/${fileName}`;
+  const replicationLocation = DEFAULT_LOCATIONS.REPLICATION + `/${fileName}`;
   const uuid = nanoid();
   const URL = DEFAULT_URL+uuid;
   const dimension = await getDimensions(fileLocation);
