@@ -105,6 +105,7 @@ exports.getMedia = async function (req, res, next) {
       if (req.query && req.query.download) {
         res.download(media.fileLocation, media.fileName);
       } else {
+        res.set('Cache-Control', 'public, max-age=31557600, s-maxage=31557600') // one year of cache
         res.sendFile(media.fileLocation);
       }
     } else {
