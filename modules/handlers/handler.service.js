@@ -31,11 +31,13 @@ async function getDimensions(path) {
   });
 }
 
-exports.addMedia = async function (fileName, isPublic) {
+exports.addMedia = async function (fileName, isPublic,key) {
+  if(!key){
+   key = nanoid();
+  }
   const fileLocation = DEFAULT_LOCATIONS.MAIN + `/${fileName}`;
   const replicationLocation = DEFAULT_LOCATIONS.REPLICATION + `/${fileName}`;
   const uuid = nanoid();
-  const key = nanoid();
   const URL = DEFAULT_URL + uuid;
   const dimension = await getDimensions(fileLocation);
   const image = fs.readFileSync(fileLocation, { encoding: "utf8" });

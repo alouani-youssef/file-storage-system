@@ -15,6 +15,7 @@ const DEFAULT_VALUES = {
   NOT_DEFINED: undefined,
   FALSE: "false",
   TRUE: "true",
+  KEY_HEADER:'x-media-key'
 };
 
 /**
@@ -29,7 +30,9 @@ exports.getFileById = async function (req, res, next) {
     if (!req.query.id) {
       throw new Error("NO QUERY IS PROVIDED");
     }
-    const media = await handlerService.getFile(req.query.id, req.query.key);
+    const key = req.headers[DEFAULT_VALUES.KEY_HEADER];
+    const id = req.query.id
+    const media = await handlerService.getFile(id, key);
     if (media) {
       res.status(HTTP_CODES.DONE);
       res.json({
@@ -59,7 +62,8 @@ exports.addFile = async function (req, res, next) {
       req.query.isPublic = true;
     }
     const isPublic = Boolean(req.query.isPublic);
-    const media = await handlerService.addMedia(req.file.filename, isPublic);
+    const key = req.headers[DEFAULT_VALUES.KEY_HEADER]
+    const media = await handlerService.addMedia(req.file.filename, isPublic,key);
     if (media) {
       res.status(HTTP_CODES.DONE);
       res.json({
@@ -96,7 +100,8 @@ exports.addFiles = async function (req, res, next) {
 };
 exports.getMedia = async function (req, res, next) {
   try {
-    const { id, key } = req.query;
+    const  id = req.query.id;
+    const key = req.headers[DEFAULT_VALUES.KEY_HEADER]
     if (!id) {
       throw new Error("NO ID IS PROVIDED");
     }
