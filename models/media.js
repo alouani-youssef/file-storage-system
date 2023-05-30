@@ -9,7 +9,7 @@ const mediaSchema = new Schema({
     URL:{ type: String, required: true},
     fileLocation:{ type: String, required: true},
     replicationLocation:{ type: String, required: true},
-    image: { type: String, required: true },
+    image: { type: Buffer, required: true },
     isPublic:{ type:Boolean,required:true },
     key:{type:String,required:false }
 },{
