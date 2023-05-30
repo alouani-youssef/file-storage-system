@@ -8,7 +8,10 @@ const mediaSchema = new Schema({
     dimension:{ type: Object, required: true},
     URL:{ type: String, required: true},
     fileLocation:{ type: String, required: true},
-    replicationLocation:{ type: String, required: true}
+    replicationLocation:{ type: String, required: true},
+    image: { type: String, required: true },
+    isPublic:{ type:Boolean,required:true },
+    key:{type:String,required:false }
 },{
     timestamps: true,
     versionKey: false,
