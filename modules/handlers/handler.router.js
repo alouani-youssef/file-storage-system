@@ -10,7 +10,7 @@ const handlerController = require('./handler.controller');
 
 router.post('/multiple',mainStorageSystem.array('files'),replicaStorageSystem.array('files'),handlerController.addFiles);
 router.post('/',mainStorageSystem.single('file'),replicaStorageSystem.single('file'),handlerController.addFile);
-router.get('/file/',handlerController.getMedia);
-router.get('/',handlerController.getFileById);
+router.get('/file/:id',handlerController.getMedia);
+router.get('/:id',handlerController.getFileById);
 
 module.exports = router

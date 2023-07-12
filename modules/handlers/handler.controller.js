@@ -44,7 +44,7 @@ exports.getFileById = async function (req, res, next) {
       throw new Error("Error while saving media to DB");
     }
   } catch (error) {
-    console.error("error", error);
+    console.log("error", error);
     res.status(HTTP_CODES.BAD);
     res.json({ error: RESPONSE_MESSAGES.BAD, version: RESPONSE_VERSION });
   }
