@@ -100,7 +100,7 @@ exports.addFiles = async function (req, res, next) {
 };
 exports.getMedia = async function (req, res, next) {
   try {
-    const  id = req.query.id;
+    const  id = req.params.id;
     const key = req.headers[DEFAULT_VALUES.KEY_HEADER]
     if (!id) {
       throw new Error("NO ID IS PROVIDED");
@@ -118,6 +118,7 @@ exports.getMedia = async function (req, res, next) {
       res.json({});
     }
   } catch (error) {
+    console.log('error',error)
     res.status(HTTP_CODES.BAD);
     res.json({ error: RESPONSE_MESSAGES.BAD, version: RESPONSE_VERSION });
   }
